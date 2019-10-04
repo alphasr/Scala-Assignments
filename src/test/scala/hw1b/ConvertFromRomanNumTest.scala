@@ -5,7 +5,6 @@ import org.scalatest.FunSuite
 import Main.convertFromRomanNum
 
 class ConvertFromRomanNumTest extends FunSuite {
-
   test("I") {
     assert(convertFromRomanNum("I") === 1)
   }
@@ -17,5 +16,10 @@ class ConvertFromRomanNumTest extends FunSuite {
   test("Gibberish"){
     assertThrows[IllegalArgumentException]{convertFromRomanNum("VVV")}
   }
+
+  test("gh") {
+    assertThrows[IllegalArgumentException]{convertFromRomanNum("VIIIIVV")}
+  }
+
 
 }
