@@ -14,5 +14,8 @@ class FindPrimesTest extends FunSuite {
       assert(findPrimes(10) === Set(2,3,5,7))
   }
 
+  test("Find primes 55") {
+    assert(findPrimes(55) === Set(2, 3, 5, 7, 11, 13, 17, 19, 23, 29, 31, 37, 41, 43, 47, 53))
+  }
 
 }
