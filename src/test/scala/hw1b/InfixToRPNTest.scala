@@ -1,4 +1,4 @@
-package hw1
+package hw1b
 
 import org.scalatest.FunSuite
 
