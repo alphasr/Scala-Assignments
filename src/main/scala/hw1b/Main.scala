@@ -3,7 +3,6 @@ package hw1b
 import scala.collection.immutable._
 import scala.collection.mutable.ListBuffer
 import scala.collection.{immutable, mutable}
-import scala.math.min
 import scala.util.Try
 
 object Main extends App {
