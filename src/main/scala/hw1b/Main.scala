@@ -1,8 +1,10 @@
 package hw1b
 
 import scala.collection.immutable._
+import scala.collection.mutable.ListBuffer
 import scala.collection.{immutable, mutable}
 import scala.math.min
+import scala.util.Try
 
 object Main extends App {
     /* Exercise 1 */
@@ -34,22 +36,75 @@ object Main extends App {
 
 
   /* Exercise 2 */
-    abstract class Lexeme
+  abstract class Lexeme {
+    type Y
+
+    def get(): Y
+
+    def token: Y
+  }
+
     case class Operator(symbol: String) extends Lexeme{
-      val str: String = symbol
+      type Y = String
+
+      def token: Y = symbol
+
+      override def get(): String = {
+        token
+      }
     }
     case class Operand(value: Int) extends Lexeme{
-      val num : Int = value
+      type Y = Int
+
+      def token: Y = value
+
+      override def get(): Int = {
+        token
+      }
     }
 
     def infixToRPN(expression: List[Lexeme]): List[Lexeme] = {
-      var dm  = List[Lexeme]()
-
-      for(i <- 0 until dm.size) {
-        if
+      var dm: String = ""
+      var temp: String = ""
+      var conv = ListBuffer[Lexeme]()
+      var tempListOperator = ListBuffer[String]()
+      var tempListOperand = ListBuffer[String]()
+      dm = expression(0).get() + ""
+      for (i <- 1 until expression.length) {
+        dm = dm + " " + expression(i).get()
+      }
+      dm = dm + " "
+      for (i <- 0 until dm.length) {
+        if (dm.charAt(i) != ' ') {
+          temp = temp + dm.charAt(i)
+        }
+        else {
+          if (Try(temp.toInt).isSuccess) {
+            val obj = Operand(temp.toInt)
+            conv += obj
+            tempListOperand.addOne(temp)
+          }
+          else {
+            if (tempListOperand.size == 2) {
+              val obj = Operator(tempListOperator(0))
+              conv += obj
+              tempListOperand.remove(0, 2)
+              tempListOperator.remove(0)
+              tempListOperator.addOne(temp)
+            }
+            else
+              tempListOperator.addOne(temp)
+          }
+          temp = ""
+        }
+      }
+      for (i <- 0 until tempListOperator.size) {
+        val obj = Operator(tempListOperator(i))
+        conv += obj
       }
 
-      dm
+
+      conv.toList
     }
 
 
@@ -123,19 +178,19 @@ object Main extends App {
           val num1 = romanValue(str.charAt(i))
         if (i+1 < str.length())
         {
-          val num2 = romanValue(str.charAt(i + 1));
+          val num2 = romanValue(str.charAt(i + 1))
           if (num1 >= num2)
           {
-            sum = sum+(num1);
+            sum = sum + num1
           }
           else
           {
-            sum = sum + num2 - num1;
+            sum = sum + num2 - num1
             }
         }
         else
         {
-          sum = sum + num1;
+          sum = sum + num1
 
         }
       }
